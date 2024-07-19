@@ -17,32 +17,34 @@ module.exports.signupDoctor = async (req, res) => {
     numbers: true,
   });
 
+  const hashedPassword = await bcrypt.hash(docPassword, 2);
+
   const response = await Doctor.create({
     ...req.body,
-    password: docPassword,
+    password: hashedPassword,
     image: imageLink,
   });
 
   let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: process.env.NODEMAILER_S,
     auth: {
-      user: '',
-      pass: '',
+      user: process.env.NODEMAILER_U,
+      pass: process.env.NODEMAILER_P,
     },
   });
 
   let mailOptions = {
     from: '',
-    to: req.body.emails,
+    to: req.body.email,
     subject: 'Login Credentials for Doctor Booking App',
-    text: `Hello, ${req.body.firstName} 
-    Your Username is : ${req.body.email} 
+    text: `Hello, ${req.body.firstName}
+    Your Username is : ${req.body.email}
     And Password is : ${docPassword}`,
   };
 
   transporter.sendMail(mailOptions, err => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(404).json({ message: 'error in mail sending' });
     } else res.status(200).json({ message: 'Mail Send', response: response });
   });
 };
@@ -74,13 +76,10 @@ module.exports.forgetPasswordDoctor = async (req, res) => {
 //-----------------------------------------------------------------
 
 module.exports.getDoctor = async (req, res) => {
-  res.status(200).json({ message: 'GET /doctors' });
+  const response = await Doctor.find();
+  res.status(200).json(response);
 };
 
 module.exports.getDoctorById = async (req, res) => {
   res.status(200).json({ message: 'GET /doctors/:id' });
-};
-
-module.exports.postDoctor = async (req, res) => {
-  res.status(201).json({ message: 'POST /doctors' });
 };

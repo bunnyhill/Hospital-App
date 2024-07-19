@@ -10,9 +10,9 @@ const addressSchema = mongoose.Schema({
 const hospitalSchema = mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
+    image: { type: String },
     address: addressSchema,
     departmentID: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Department' }],
-    image: { type: String },
   },
   { timestamps: true }
 );

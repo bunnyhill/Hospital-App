@@ -1,38 +1,39 @@
 const User = require('../db/models/user-schema');
 
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 module.exports.signupUser = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (user) {
     return res.status(403).json({ message: 'Email already taken' });
   }
 
-  const imageLink = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`;
-
   const response = await Doctor.create({
     ...req.body,
-    image: imageLink,
   });
 
   let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: process.env.NODEMAILER_S,
     auth: {
-      user: '',
-      pass: '',
+      user: process.env.NODEMAILER_U,
+      pass: process.env.NODEMAILER_P,
     },
   });
 
   let mailOptions = {
     from: '',
-    to: req.body.emails,
+    to: req.body.email,
     subject: 'Login Credentials for Doctor Booking App',
     text: `Hello, ${req.body.firstName} 
     Your Username is : ${req.body.email} 
-    And Password is : ${docPassword}`,
+    And Password is : ${req.body.password}`,
   };
 
   transporter.sendMail(mailOptions, err => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(404).json({ message: 'error in mail sending' });
     } else res.status(200).json({ message: 'Mail Send', response: response });
   });
 };
