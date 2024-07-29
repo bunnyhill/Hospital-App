@@ -1,0 +1,24 @@
+.roles-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.roles-container button {
+  padding: 50px 100px;
+  border-radius: 30px;
+  border: none;
+  background-color: lightgray;
+  font-size: large;
+  font-weight: bolder;
+  transition: 500ms;
+}
+
+.roles-container button:hover {
+  cursor: pointer;
+  color: white;
+  scale: 1.12;
+  background-color: #141414;
+}
