@@ -1,11 +1,10 @@
-import { useParams } from 'react-router-dom';
 import './userpage.css';
+import Sidebar from '../../components/Sidebar';
 
 const UserPage = () => {
-  const { token } = useParams();
   return (
     <div className="user-page">
-      <p>{token}</p>
+      <Sidebar role="user" />
     </div>
   );
 };

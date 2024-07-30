@@ -56,7 +56,7 @@ module.exports.loginUser = async (req, res) => {
     expiresIn: '365d',
   });
 
-  res.status(200).json({ message: 'You Are Logged In', token });
+  res.status(200).json({ message: 'You Are Logged In', token, id: user._id });
 };
 
 module.exports.forgetPasswordUser = async (req, res) => {

@@ -8,8 +8,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const [userToken, setUserToken] = useState('');
-
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',
@@ -19,16 +17,16 @@ const Login = () => {
     setLoginDetails({ ...loginDetails, [key]: e.target.value });
   };
 
-  console.log(loginDetails);
-
   const onBtnLogin = async () => {
     try {
       const response = await axios.post(
         `http://localhost:8000/${role}/login`,
         loginDetails
       );
-      setUserToken(response.data.token);
-      navigate(`/${role}/${response.data.token}`);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('id', response.data.id);
+
+      navigate(`/${role}/home`);
     } catch (e) {
       console.log('wrong email or password');
     }

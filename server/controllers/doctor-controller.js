@@ -63,7 +63,7 @@ module.exports.loginDoctor = async (req, res) => {
     expiresIn: '365d',
   });
 
-  res.status(200).json({ message: 'You Are Logged In', token });
+  res.status(200).json({ message: 'You Are Logged In', token, id: doctor._id });
 };
 
 module.exports.forgotPassword = async (req, res) => {
