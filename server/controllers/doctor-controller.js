@@ -59,7 +59,7 @@ module.exports.loginDoctor = async (req, res) => {
     return res.status(403).json({ message: 'Incorrect Password' });
   }
 
-  const token = jwt.sign({ id: doctor._id }, process.env.KEY, {
+  const token = jwt.sign({ id: doctor._id, role: 'doctor' }, process.env.KEY, {
     expiresIn: '365d',
   });
 

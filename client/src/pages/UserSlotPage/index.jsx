@@ -1,10 +1,18 @@
-import DoctorSidebar from '../../components/DoctorSidebar';
-import './doctorslotpage.css';
-import { useState } from 'react';
+import UserSidebar from '../../components/UserSidebar';
 import instance from '../../utils/axiosConfig';
-import { Button, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Input, Select } from 'antd';
+import './userslotpage.css';
 
-const DoctorSlotPage = () => {
+const UserSlotPage = () => {
+  const { Option } = Select;
+  const [pageDetails, setPageDetails] = useState({ hospitals: [] });
+
+  const [identifyDoctor, setIdentifyDoctor] = useState({
+    hospitalName: '',
+    departName: '',
+    doctorName: '',
+  });
   const [slotDetails, setSlotDetails] = useState({
     date: new Date(),
     startTime: '',
@@ -15,7 +23,13 @@ const DoctorSlotPage = () => {
 
   console.log(slotDetails);
 
-  // Format date in YYYY-MM-DD format
+  const fetchPageDetails = async () => {
+    try {
+      const response = await instance.get('/hospital');
+      setPageDetails({ ...pageDetails, hospitals: response.data });
+    } catch (e) {}
+  };
+
   const formatDate = date => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -32,7 +46,7 @@ const DoctorSlotPage = () => {
     }
   };
 
-  const onBtnAdd = async () => {
+  const onBookSlot = async () => {
     try {
       const response = await instance.post('/slot', slotDetails);
       console.log(response.data.message);
@@ -42,16 +56,18 @@ const DoctorSlotPage = () => {
         endTime: '',
         availableSlots: 0,
       });
-    } catch (e) {
-      console.log('error in POST /slot api call');
-    }
+    } catch (e) {}
   };
 
+  useEffect(() => {
+    fetchPageDetails();
+  }, []);
+
   return (
-    <div className="doctor-slot-page">
-      <DoctorSidebar />
-      <div className="doctor-slot-form">
-        <label>Date - </label>
+    <div className="user-slot-page">
+      <UserSidebar />
+      <div className="user-slot-form">
+        <label>Date </label>
         <Input
           type="date"
           value={formatDate(slotDetails.date)}
@@ -59,35 +75,16 @@ const DoctorSlotPage = () => {
             onchange(e, 'date');
           }}
         />
-        <label>StartTime - </label>
-        <Input
-          onChange={e => {
-            onchange(e, 'startTime');
-          }}
-          type="string"
-          value={slotDetails.startTime}
-        />
-        <label>EndTime </label>
-        <Input
-          onChange={e => {
-            onchange(e, 'endTime');
-          }}
-          type="string"
-          value={slotDetails.endTime}
-        />
-        <label>Slots </label>
-        <Input
-          onChange={e => {
-            onchange(e, 'availableSlots');
-          }}
-          type="number"
-          value={slotDetails.availableSlots}
-          min={0}
-        />
-        <Button onClick={onBtnAdd}>Add Slot</Button>
+        <label>Hospital</label>
+        <Select>
+          {pageDetails?.hospitals.map(item => (
+            <Option key={item.name} vlaue={item.name} />
+          ))}
+        </Select>
+        {/* <Button onCliCk={onBookSlot}>Book Slot</Button> */}
       </div>
     </div>
   );
 };
 
-export default DoctorSlotPage;
+export default UserSlotPage;

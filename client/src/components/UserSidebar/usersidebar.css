@@ -1,0 +1,29 @@
+.user-sidebar {
+  background-color: wheat;
+  height: 100vh;
+  width: 250px;
+}
+
+.user-sidebar .img-div {
+  height: 200px;
+  margin: 0 15px;
+  border: 1px solid black;
+  border-radius: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-sidebar p {
+  width: 80%;
+  margin: 10px auto;
+  padding: 10px 30px;
+  border-radius: 20px;
+  transition: 500ms;
+}
+.user-sidebar p:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}

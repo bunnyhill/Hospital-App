@@ -18,3 +18,10 @@ module.exports.postDepartment = async (req, res) => {
   });
   res.status(201).json(response);
 };
+
+module.exports.pdf = async (req, res) => {
+  const { id } = req.params;
+
+  const department = await Department.findById(id);
+  res.render('pdf', { department });
+};

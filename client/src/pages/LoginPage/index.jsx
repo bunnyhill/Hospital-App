@@ -23,6 +23,7 @@ const Login = () => {
         `http://localhost:8000/${role}/login`,
         loginDetails
       );
+
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('id', response.data.id);
 

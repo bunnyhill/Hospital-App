@@ -1,10 +1,10 @@
 import './doctorhomepage.css';
-import Sidebar from '../../components/Sidebar';
+import DoctorSidebar from '../../components/DoctorSidebar';
 
 const DoctorHomePage = () => {
   return (
-    <div className="doctor-page">
-      <Sidebar role="doctor" />
+    <div className="doctor-home-page">
+      <DoctorSidebar role="doctor" />
     </div>
   );
 };

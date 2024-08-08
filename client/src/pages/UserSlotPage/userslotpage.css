@@ -1,8 +1,8 @@
-.doctor-slot-page {
+.user-slot-page {
   display: flex;
 }
 
-.doctor-slot-form {
+.user-slot-form {
   margin: 20px;
   display: flex;
   flex-direction: column;

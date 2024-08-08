@@ -8,7 +8,8 @@ module.exports.getHospital = async (req, res) => {
     });
     return res.status(200).json(response);
   }
-  res.status(200).json({ message: 'GET /hospitals' });
+  const hospitals = await Hospital.find();
+  res.status(200).json(hospitals);
 };
 
 module.exports.getHospitalById = async (req, res) => {

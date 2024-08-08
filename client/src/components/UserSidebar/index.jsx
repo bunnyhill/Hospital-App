@@ -1,9 +1,9 @@
-import './sidebar.css';
+import './usersidebar.css';
 import instance from '../../utils/axiosConfig';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = props => {
+const UserSidebar = () => {
   const navigate = useNavigate();
 
   const [details, setDetails] = useState({});
@@ -12,7 +12,7 @@ const Sidebar = props => {
     try {
       const id = localStorage.getItem('id');
       if (id) {
-        const response = await instance.get(`/${props.role}/${id}`);
+        const response = await instance.get(`/user/${id}`);
         setDetails(response.data);
       } else {
         console.log('id not found in localstorage');
@@ -22,7 +22,8 @@ const Sidebar = props => {
 
   const onBtnlogOut = () => {
     localStorage.removeItem('id');
-    navigate(`/login/${props.role}`);
+    localStorage.removeItem('token');
+    navigate(`/login/user`);
   };
 
   useEffect(() => {
@@ -30,27 +31,45 @@ const Sidebar = props => {
   }, []);
 
   return (
-    <div className="sidebar">
+    <div className="user-sidebar">
       <br />
-      <div className="img-div">pfp</div>
+      <div className="img-div">img</div>
       <br />
       <h2 style={{ textAlign: 'center' }}>
         {details.firstName + ' ' + details.lastName}
       </h2>
       <br />
-      <p>Home</p>
-      <p>My Appointments</p>
       <p
         onClick={() => {
-          navigate(`/${props.role}/slot`);
+          navigate('/user/home');
         }}
       >
-        Add Slots
+        Home
       </p>
-      <p>Edit Profile</p>
+      <p
+        onClick={() => {
+          navigate('/user/my-appointments');
+        }}
+      >
+        My Appointments
+      </p>
+      <p
+        onClick={() => {
+          navigate(`/user/available-slots`);
+        }}
+      >
+        Available Slots
+      </p>
+      <p
+        onClick={() => {
+          navigate('/user/edit-profile');
+        }}
+      >
+        Edit Profile
+      </p>
       <p onClick={onBtnlogOut}>Log Out</p>
     </div>
   );
 };
 
-export default Sidebar;
+export default UserSidebar;

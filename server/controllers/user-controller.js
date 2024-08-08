@@ -52,7 +52,7 @@ module.exports.loginUser = async (req, res) => {
     return res.status(403).json({ message: 'Incorrect Password' });
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.KEY, {
+  const token = jwt.sign({ id: user._id, role: 'user' }, process.env.KEY, {
     expiresIn: '365d',
   });
 

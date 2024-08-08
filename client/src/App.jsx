@@ -1,19 +1,45 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import Role from './pages/Role';
-import Login from './pages/Login';
+
+import RolePage from './pages/RolePage';
+import LoginPage from './pages/LoginPage';
 import DoctorHomePage from './pages/DoctorHomePage';
-import UserPage from './pages/UserPage';
+import DoctorAppointmentPage from './pages/DoctorAppointmentPage';
 import DoctorSlotPage from './pages/DoctorSlotPage';
+import DoctorEditProfilePage from './pages/DoctorEditProfilePage';
+
+import UserHomePage from './pages/UserHomePage';
+import UserAppointmentPage from './pages/UserAppointmentPage';
+import UserSlotPage from './pages/UserSlotPage';
+import UserEditProfilePage from './pages/UserEditProfilePage';
+
+import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/role" element={<Role />} />
-      <Route path="/login/:role" element={<Login />} />
-      <Route path="/doctor/home" element={<DoctorHomePage />} />
-      <Route path="/user/home" element={<UserPage />} />
-      <Route path="/doctor/slot" element={<DoctorSlotPage />} />
+      <Route path="/role" element={<RolePage />} />
+      <Route path="/login/:role" element={<LoginPage />} />
+
+      <Route element={<PrivateRoute role="doctor" />}>
+        <Route path="/doctor/home" element={<DoctorHomePage />} />
+        <Route
+          path="/doctor/my-appointments"
+          element={<DoctorAppointmentPage />}
+        />
+        <Route path="/doctor/add-slots" element={<DoctorSlotPage />} />
+        <Route
+          path="/doctor/edit-profile"
+          element={<DoctorEditProfilePage />}
+        />
+      </Route>
+
+      <Route element={<PrivateRoute role="user" />}>
+        <Route path="/user/home" element={<UserHomePage />} />
+        <Route path="/user/my-appointments" element={<UserAppointmentPage />} />
+        <Route path="/user/available-slots" element={<UserSlotPage />} />
+        <Route path="/user/edit-profile" element={<UserEditProfilePage />} />
+      </Route>
     </Routes>
   );
 };
